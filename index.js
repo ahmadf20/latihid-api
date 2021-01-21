@@ -2,8 +2,8 @@ const Express = require("express");
 const BodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectID;
-const CONNECTION_URL = 'mongodb+srv://root:root@cluster0.8et8p.mongodb.net/main?retryWrites=true&w=majority';
-const DATABASE_NAME = "main";
+
+require('dotenv').config()
 
 
 var app = Express();
@@ -11,14 +11,14 @@ app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
 var database, collection;
 
-app.listen(5000, () => {
-    MongoClient.connect(CONNECTION_URL, { useNewUrlParser: true }, (error, client) => {
+app.listen(process.env.PORT || 5000, () => {
+    MongoClient.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (error, client) => {
         if(error) {
             throw error;
         }
-        database = client.db(DATABASE_NAME);
+        database = client.db(process.env.DATABASE_NAME);
         collection = database.collection("modul");
-        console.log("Connected to `" + DATABASE_NAME + "`!");
+        console.log("Connected to `" + process.env.DATABASE_NAME + "`!");
     });
 });
 
