@@ -1,14 +1,16 @@
 const Express = require("express");
+const cors = require("cors")
 const BodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectID;
 
 require('dotenv').config()
 
-
 var app = Express();
+app.use(cors())
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
+
 var database, collection;
 
 app.listen(process.env.PORT || 5000, () => {
